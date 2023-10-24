@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import cors from 'cors';
 import dotenv from 'dotenv'
 import morgan from 'morgan'
+import authRoutes from './routes/auth.js'
 import { ExpressError } from './middleware/errHandle.js';
 
 //activate config to access .env
@@ -19,7 +20,7 @@ app.use(cors());
 app.use(morgan('common'))
 
 //user defined routes here
-
+app.use('/auth', authRoutes);
 
 
 //error routes 
