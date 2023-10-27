@@ -27,7 +27,6 @@ export const signUp = async (req,res)=>{
             email:email,
             password: hash
         })
-        console.log(newUser)
        await newUser.save();
     
         // create the user inside the database and save. send request code 201 and front should redirect user to login
