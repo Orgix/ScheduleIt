@@ -1,7 +1,7 @@
 import User from '../models/user.js'
 
 export const signIn = async (req,res)=>{
-
+    const { email, pwd} = req.body
 }
 
 export const signUp = async (req,res)=>{
