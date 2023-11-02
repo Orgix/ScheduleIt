@@ -77,3 +77,7 @@ export const signUp = async (req,res)=>{
 export const signout = async (req,res)=>{
     
 }
+
+export const updateUser = async(req,res)=>{
+    
+}
