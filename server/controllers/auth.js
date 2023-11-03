@@ -1,6 +1,5 @@
 import  jwt  from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import mongoose from "mongoose";
 import User from "../models/user.js";
 import { ExpressError } from "../middleware/errHandle.js";
 
