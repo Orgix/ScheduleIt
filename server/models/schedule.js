@@ -23,12 +23,26 @@ const userSchema = mongoose.Schema ({
       date: Date, // Date for the day
       timeSlots: [
         {
-          requiredSpecialty: String, // Specialty required for the time slot
-          assignedEmployee: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Employee',
-          },
-          // You can include additional properties related to each time slot if needed
+          date: Date,
+          startTime: String,
+          endTime: String,
+          specialties: [
+            {
+              specialty: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Specialty',
+              },
+              employeeCount: Number, // Number of employees assigned for this specialty
+            },
+          ],
+          employeeCount: Number,
+          assignedEmployees: [
+            {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: 'Employee',
+            },
+          ],
+          // Include other time slot properties as needed
         },
       ],
       // Add other properties related to each day if necessary
