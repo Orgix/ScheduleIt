@@ -68,7 +68,7 @@ const Navbar = () => {
         
           <Toolbar disableGutters>
           
-            <CalendarMonthIcon sx={{display:{xs:'none', md:'flex'}, mr:1}}/>
+            <CalendarMonthIcon sx={{display:{xs:'none', md:'flex', color:'white'}, mr:1}}/>
             <Typography
               variant="h6"
               noWrap
@@ -80,7 +80,7 @@ const Navbar = () => {
                 fontFamily:'monospace',
                 fontWeight: 600,
                 letterSpacing:'.2rem',
-                color:'inherit',
+                color:'white',
                 textDecoration: 'none'
               }}
             >
