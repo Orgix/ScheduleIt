@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import React from 'react';
 import Navbar from './components/navbar/Navbar';
-import Home from './pages/Home';
+import Home from './pages/Home/Home';
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 import { Container, CssBaseline } from '@mui/material';
 import { useSelector } from 'react-redux';
