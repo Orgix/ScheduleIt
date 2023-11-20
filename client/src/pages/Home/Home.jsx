@@ -8,6 +8,7 @@ const Home = () => {
     <Box sx={{...styles.outerContainer, backgroundImage: `url(${background})`}}>
     <Container sx={styles.container}>
          <>
+         <Grid container>
           <Typography variant="h4" sx={styles.welcomeMessage}>
             Welcome to ScheduleIt!
           </Typography>
@@ -23,6 +24,7 @@ const Home = () => {
           <Typography variant="h4" sx={styles.welcomeMessage}>
             Join ScheduleIt today and revolutionize the way you manage schedules!
           </Typography>
+         </Grid>
         </>
     </Container>
     <Box sx={styles.buttonContainer}>
