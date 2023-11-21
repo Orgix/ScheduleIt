@@ -8,7 +8,6 @@ const Home = () => {
     <Box sx={{...styles.outerContainer, backgroundImage: `url(${background})`}}>
     <Container sx={styles.container}>
          <>
-         <Grid container>
           <Typography variant="h4" sx={styles.welcomeMessage}>
             Welcome to ScheduleIt!
           </Typography>
@@ -24,7 +23,6 @@ const Home = () => {
           <Typography variant="h4" sx={styles.welcomeMessage}>
             Join ScheduleIt today and revolutionize the way you manage schedules!
           </Typography>
-         </Grid>
         </>
     </Container>
     <Box sx={styles.buttonContainer}>
@@ -40,3 +38,4 @@ const Home = () => {
 export default Home
 
 //PLAN: SEPARATE PAGE INTO 2 GRID ITEMS , PUT 2 WHITE CARDS AND CONTAINERS. ADJUST COLOR TO THE BACKGROUND IMAGE
+//PLAN STEP 2: SEPARATE ROUTING FOR BOTH CASES THERE IS USER AND NOT
