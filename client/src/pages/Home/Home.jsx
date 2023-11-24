@@ -5,8 +5,10 @@ import {LandingStyles as styles} from './styles'
 import background from '../../assets/images/worksp.jpg'
 const Home = () => {
   return (
-    <Box sx={{...styles.outerContainer,background:'rgba(0,0,0,0.6)'}}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh',background:'rgba(0,0,0,0.6)',position:'relative'}}>
       <img src={background} style={styles.containersImage} />
+      <Box sx={styles.outerContainer}>
+      
       <Grid container sx={{}}>
       
         <Grid item xs={12} sm={7} lg={6} alignItems="center" justifyContent="center" sx={{mt:5,mb:5}}>
@@ -39,13 +41,16 @@ const Home = () => {
       </Box>
         </Grid>
     </Grid>
-    <Box sx={styles.footContainer}>
-      <Typography variant="body1">
-        © 2023 ScheduleIt. All rights reserved. | Terms of Service | Privacy Policy
-      </Typography>
-    </Box>
-    </Box>
     
+    </Box>
+    <Box sx={styles.footContainer}>
+  <Typography variant="body1">
+    © 2023 ScheduleIt. All rights reserved. | Terms of Service | Privacy Policy
+  </Typography>
+</Box>
+  </Box>
+  
+
   );
 }
 
