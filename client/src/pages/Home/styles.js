@@ -1,11 +1,13 @@
 export const LandingStyles = {
     outerContainer:{
         position:'relative',
-        minHeight:'100vh',
         width:'100%',
         height:'100%s',
         backgroundSize:'cover',
         backgroundRepeat: 'no-repeat',
+        display:'flex',
+        flexDirection: 'column', 
+        minHeight: '100vh',
     },
     container: {
       display: 'flex',
