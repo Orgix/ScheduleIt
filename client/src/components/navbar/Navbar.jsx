@@ -118,44 +118,36 @@ const Navbar = () => {
               
                 <MenuItem key="key-1" onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    <Link component={RouterLink} to="/explore" underline="none">
-                      Link 1
+                    <Link component={RouterLink} to="/me/schedules" underline="none">
+                      My Schedules
+                    </Link>
+                  </Typography>
+                </MenuItem>
+                <MenuItem key="key-2" onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                    <Link component={RouterLink} to={`/me/employeeList`} underline="none">
+                    Employees List
                     </Link>
                   </Typography>
                 </MenuItem>
                 <MenuItem key="key-3" onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    <Link component={RouterLink} to="/profile/me/tasks" underline="none">
-                    Link 2
-                    </Link>
-                  </Typography>
-                </MenuItem>
-                  <MenuItem key="key-2" onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                    <Link component={RouterLink} to="/profile/me/" underline="none">
-                    Link 3
-                    </Link>
-                  </Typography>
-                </MenuItem>
-                <MenuItem key="key-4" onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                    <Link component={RouterLink} to="/profile/me/tasks/new" underline="none">
-                    Link 4
+                    <Link component={RouterLink} to={`/me`} underline="none">
+                     Dashboard
                     </Link>
                   </Typography>
                 </MenuItem>
             </Menu>
           </Box>
               <Box sx={{flexGrow:1, display:{xs:'none', md:'flex'}, justifyContent:'center'}}>
-                  <Link component={RouterLink} to="/explore" style={linkStyles}>
-                        Link 1
+                  <Link component={RouterLink} to="/me/schedules" style={linkStyles}>
+                        My Schedules
                     </Link>
-                    <Link component={RouterLink} to={`profile/me/tasks`} style={linkStyles}>
-                        Link 2
+                    <Link component={RouterLink} to={`/me/employeeList`} style={linkStyles}>
+                        Employees List
                     </Link>
-                    
-                    <Link component={RouterLink} to={`profile/me`} style={linkStyles}>
-                        Link 3
+                    <Link component={RouterLink} to={`/me`} style={linkStyles}>
+                        Dashboard
                     </Link>
               </Box>
               {/* <Box sx={{flexGrow:0}}>
@@ -189,21 +181,26 @@ const Navbar = () => {
                   onClose={handleCloseUserMenu}
                 >   
                   <Container sx={{display:{xs:'block', sm:'none'}}}>
-                  <Typography sx={{fontWeight:800}} textAlign="center">Sample Name</Typography>
+                  <Typography sx={{fontWeight:800}} textAlign="center">Sample User</Typography>
                     <Divider/>
                   </Container>
                     
                     <MenuItem key="opt-1" onClick={handleCloseUserMenu}>
-                      <Link component={RouterLink} to='/profile/me/edit' underline='none' color='inherit'>
+                      <Link component={RouterLink} to='/view' underline='none' color='inherit'>
                         <Typography textAlign="center">Actions</Typography>
                       </Link>
                     </MenuItem>
                     <MenuItem key="opt-2" onClick={handleCloseUserMenu}>
-                      <Link component={RouterLink} to='/profile/me/tasks/' underline='none' color='inherit'>
-                        <Typography textAlign="center">My tasks</Typography>
+                      <Link component={RouterLink} to='/me/schedules' underline='none' color='inherit'>
+                        <Typography textAlign="center">My Schedules</Typography>
                       </Link>
                     </MenuItem>
                     <MenuItem key="opt-3" onClick={handleCloseUserMenu}>
+                      <Link component={RouterLink} to='/me' underline='none' color='inherit'>
+                        <Typography textAlign="center">Dashboard</Typography>
+                      </Link>
+                    </MenuItem>
+                    <MenuItem key="opt-4" onClick={handleCloseUserMenu}>
                       <Typography textAlign="center" onClick={handleLogout}>Logout</Typography>
                     </MenuItem>
                   
