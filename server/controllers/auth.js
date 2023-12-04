@@ -3,42 +3,67 @@ import bcrypt from "bcryptjs";
 import User from "../models/user.js";
 import { ExpressError } from "../middleware/errHandle.js";
 
-
+// @desc Login
+// @route GET /auth/login
+// @access Public - Authenticate in the system with the given credentials
 export const signIn = async (req,res)=>{
-    const { email, pwd} = req.body
+    const { username, password } = req.body
 
-    //lookup user in database. if not found, send a 404 code
-    const foundUser = await User.findOne({email}).populate({path:'friends', select: 'firstName lastName'}).exec();
-    if(!foundUser) return res.status(404).json({message: 'User does not exist.'})
+    // either of the field is not filled 
+    if (!username || !password) {
+        return res.status(400).json({ message: 'All fields are required' })
+    }
+    try{
+        //lookup user in database. if not found, send a 404 code
+        const foundUser = await User.findOne({email}).populate({path:'friends', select: 'firstName lastName'}).exec();
+        if(!foundUser) return res.status(404).json({message: 'User does not exist.'})
     
-    //if found, compare the password with the hash. 
-    const match = await bcrypt.compare(password, foundUser.password)
-    if(!match) return res.status(401).json({message:'Incorrect credentials'})
+        //if found, compare the password with the hash. 
+        const match = await bcrypt.compare(password, foundUser.password)
+        if(!match) return res.status(401).json({message:'Incorrect credentials'})
 
-    //if it's valid, generate a jwt token(1day length)
-    const accessToken = jwt.sign(
-        {
-            "UserInfo": {
-                "username": foundUser.username,
-                "email": foundUser.email,
-                "firstName": foundUser.firstName,
-                "lastName":foundUser.lastName,
-                "joined" : foundUser.joined,
-                "id": foundUser._id
-            }
-        },
-        process.env.JWT_SECRET,
-        { expiresIn: '1d' }
-    );
-    //before sending the response, handle saving the token, so the updatedAt field gets updated. this will basically be done likewisely on the sync feature
-    //set the user field to that token.
-    foundUser.token = accessToken
+        const accessToken = jwt.sign(
+            {
+                "UserInfo": {
+                    "username": foundUser.username,
+                    "email": foundUser.email,
+                    "firstName":foundUser.firstName,
+                    "lastName":foundUser.lastName,
+                    "id":foundUser._id
+                }
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: '15m' }
+        )
+    
+        const refreshToken = jwt.sign(
+            { "username": foundUser.username },
+            process.env.REFRESH_TOKEN_SECRET,
+            { expiresIn: '7d' }
+        )
+    
+        // Create secure cookie with refresh token 
+        res.cookie('jwt', refreshToken, {
+            httpOnly: true,  
+            secure: true, 
+            sameSite: 'None', 
+            maxAge: 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match refresh token's max age
+        })
+    
+        res.json({ accessToken })
+    }
+    catch(err){
+        throw new ExpressError(err.message,err.code)
+    }
+    
 }
-
+// @desc Register new user
+// @route GET /auth/register
+// @access Private
 export const signUp = async (req,res)=>{
     //destructure object prop from params. username, password,email, firstName,lastName
-    const {firstName,lastName, email, password, username} = req.body;
-     if(!firstName || !lastName || !email || !password || !username) return res.status(401).json({message:'incomplete data for registration'})
+    const { email, password, username} = req.body;
+     if(!email || !password || !username) return res.status(401).json({message:'incomplete data for registration'})
     console.log(req.body)
     
     try{
@@ -53,8 +78,6 @@ export const signUp = async (req,res)=>{
         const hash = await bcrypt.hash(password, 12);
         const newUser = new User({
             username: username,
-            firstName: firstName,
-            lastName: lastName,
             email:email,
             password: hash
         })
@@ -72,11 +95,51 @@ export const signUp = async (req,res)=>{
 
 
 }
+// @desc Refresh
+// @route GET /auth/refresh
+// @access Public - access token expired
+export const refresh = (req, res) => {
+    const cookies = req.cookies
 
-export const signout = async (req,res)=>{
-    
+    if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' })
+
+    const refreshToken = cookies.jwt
+
+    jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+        asyncHandler(async (err, decoded) => {
+            if (err) return res.status(403).json({ message: 'Forbidden' })
+
+            const foundUser = await User.findOne({ username: decoded.username }).exec()
+            //if no user is found
+            if (!foundUser) return res.status(401).json({ message: 'Unauthorized' })
+
+            const accessToken = jwt.sign(
+                {
+                    "UserInfo": {
+                        "username": foundUser.username,
+                        "email": foundUser.email,
+                        "firstName":foundUser.firstName,
+                        "lastName":foundUser.lastName,
+                        "id":foundUser._id
+                    }
+                },
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: '15m' }
+            )
+
+            res.json({ accessToken })
+        })
+    )
 }
 
-export const updateUser = async(req,res)=>{
-    
+// @desc Logout
+// @route POST /auth/logout
+// @access Public - just to clear cookie if exists
+export const logout = (req, res) => {
+    const cookies = req.cookies
+    if (!cookies?.jwt) return res.sendStatus(204) //No content
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
+    res.json({ message: 'Cookie cleared' })
 }
