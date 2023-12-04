@@ -3,12 +3,10 @@ import mongoose from "mongoose";
 const userSchema = mongoose.Schema ({
     firstName:{
         type:String,
-        required:true,
         max:12,
     },
     lastName:{
         type:String,
-        required:true,
         max:12
     },
     email:{
