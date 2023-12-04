@@ -1,72 +1,25 @@
 import { createSlice} from '@reduxjs/toolkit'
 import { signin, register,signout, } from "../actions/auth";
+import { selectClasses } from '@mui/material';
 
 
 const initialState = {
-    isLoading: false,
-    token:localStorage.getItem('token') ? localStorage.getItem('token'): null,
-    user:localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')): null,
-    error:'',
-    success:false,
-    tasks:[],
-    favTasks: [],
-    search:''
+    token:null
 }
 
 const authSlice = createSlice({
     name:'auth',
     initialState,
     reducers:{
-      clearSearch:(state)=>{
-        state.search = ''
-      }
+        setCredentials: (state,action) =>{
+            const {accessToken } = action.payload
+            state.token = accessToken;
+        },
+        logout:(state,action) =>{
+            state.token = null
+        }
     },
-    extraReducers(builder) {
-        builder
-            .addCase(register.pending, (state, action) => {
-                state.isLoading = true
-                state.error = ''
-            })
-            .addCase(register.fulfilled, (state,action)=>{
-                //add map here to handle the posts
-                state.isLoading = false
-                state.success = true
-            })
-            .addCase(register.rejected, (state,action)=>{
-                  state.isLoading = false
-                  state.error = action.error.message
-            } ) 
-            .addCase(signin.pending, (state,action)=>{
-                  state.isLoading = true
-                  state.error=''
-            })   
-            .addCase(signin.fulfilled, (state,action)=>{
-                console.log("success")
-                state.isLoading =  false
-                state.success = true;
-                state.token = action.payload.token
-                state.user = action.payload.user 
-
-                localStorage.setItem("user", JSON.stringify(action.payload.user))
-                localStorage.setItem("token",JSON.stringify(action.payload.token))
-            
-            })
-            .addCase(signin.rejected, (state, action)=>{
-                  state.isLoading = false
-                  state.singleStatus = 'failed'
-                  state.error = action.error.message
-            })
-            .addCase(signout.fulfilled, (state,action)=>{
-                state.user = null
-                state.token = null
-                localStorage.removeItem('user')
-                localStorage.removeItem('token')
-            })
-            .addCase(signout.rejected, (state,action)=>{
-                console.log("error")
-            })
-    }
 })
-export const {clearSearch} = authSlice.actions
-export const getUser = (state) => state.auth.user;
+export const {setCredentials, logout} = authSlice.actions
 export default authSlice.reducer
+export const selectCurrentToken = (state) => state.auth.token
