@@ -23,16 +23,18 @@ const userSchema = mongoose.Schema ({
         type:Date,
         default: new Date()
     },
-    token:{
-        type:String,
-        default:''
-    },
      username:{
         type:String,
         required:true,
         min:6,
         max:15
-     }
+     },
+     schedules: [
+        { 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'Schedule' 
+        }
+    ]
 }, {timestamps:true})
 
 const User = mongoose.model("User", userSchema);
