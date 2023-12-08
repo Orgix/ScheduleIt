@@ -3,7 +3,7 @@ import { createAsyncThunk} from '@reduxjs/toolkit'
 
 export const register = createAsyncThunk('auth/register', async ({firstName, lastName, password, email, username}) =>{
     try{
-        const response = await authApi.signUp({firstName, lastName, email, password, username})
+        const response = await authApi.signUp({email, password, username})
         return response.data
     }
     catch(error){
