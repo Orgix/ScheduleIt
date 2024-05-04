@@ -1,4 +1,4 @@
-import { logEvents } from "./logger"
+import { logEvents } from "./logger.js"
 
 export const errorHandler = (err, req, res, next) => {
     logEvents(`${err.name}: ${err.message}\t${req.method}\t${req.url}\t${req.headers.origin}`, 'errLog.log')
@@ -9,4 +9,13 @@ export const errorHandler = (err, req, res, next) => {
     res.status(status)
 
     res.json({ message: err.message })
+}
+
+
+export class ExpressError extends Error{
+    constructor(message,statusCode){
+        super();
+        this.message = message;
+        this.statusCode = statusCode
+    }
 }
